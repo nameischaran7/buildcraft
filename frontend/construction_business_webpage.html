@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuildCraft Co.</title>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500&display=swap');
+
+    .site * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'DM Sans', sans-serif; }
+    .site { color: var(--color-text-primary); background: var(--color-background-primary); }
+
+    /* NAV */
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; border-bottom: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 20px; letter-spacing: -0.5px; }
+    .nav-logo span { color: #C47B2B; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-size: 14px; color: var(--color-text-secondary); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--color-text-primary); }
+    .nav-cta { background: #1A2E44; color: #fff; border: none; padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; }
+
+    /* HERO */
+    .hero { padding: 4rem 2rem 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; border-bottom: 0.5px solid var(--color-border-tertiary); }
+    .hero-tag { font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: #C47B2B; margin-bottom: 1rem; display: flex; align-items: center; gap: 6px; }
+    .hero-tag::before { content: ''; display: block; width: 24px; height: 1.5px; background: #C47B2B; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 42px; line-height: 1.15; color: var(--color-text-primary); margin-bottom: 1rem; }
+    .hero p { font-size: 15px; color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 1.5rem; max-width: 400px; }
+    .hero-btns { display: flex; gap: 12px; }
+    .btn-primary { background: #1A2E44; color: #fff; border: none; padding: 10px 22px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; }
+    .btn-outline { background: transparent; color: var(--color-text-primary); border: 0.5px solid var(--color-border-secondary); padding: 10px 22px; border-radius: 6px; font-size: 14px; cursor: pointer; }
+    .hero-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .hero-card { background: var(--color-background-secondary); border-radius: 10px; padding: 1.25rem; border: 0.5px solid var(--color-border-tertiary); }
+    .hero-card.accent { background: #1A2E44; color: #fff; }
+    .hero-card-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; }
+    .hero-card.accent .hero-card-num { color: #E8B96A; }
+    .hero-card-label { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; }
+    .hero-card.accent .hero-card-label { color: rgba(255,255,255,0.6); }
+    .hero-card-icon { font-size: 22px; margin-bottom: 8px; color: #C47B2B; }
+    .hero-card.accent .hero-card-icon { color: #E8B96A; }
+
+    /* SERVICES */
+    .section { padding: 3rem 2rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+    .section-tag { font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: #C47B2B; margin-bottom: 0.5rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--color-text-primary); margin-bottom: 0.5rem; }
+    .section-sub { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 2rem; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .service-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; }
+    .service-icon { width: 40px; height: 40px; background: #F5ECD7; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+    .service-icon i { font-size: 20px; color: #C47B2B; }
+    .service-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+    .service-card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .project-card { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); overflow: hidden; }
+    .project-img { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+    .project-img.c1 { background: linear-gradient(135deg, #D6E8F5, #B5D4F4); }
+    .project-img.c2 { background: linear-gradient(135deg, #F5ECD7, #F4C775); }
+    .project-img.c3 { background: linear-gradient(135deg, #DFF5EC, #9FE1CB); }
+    .project-body { padding: 1rem; }
+    .project-type { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #C47B2B; font-weight: 500; margin-bottom: 4px; }
+    .project-body h3 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .project-body p { font-size: 12px; color: var(--color-text-secondary); }
+    .project-footer { display: flex; justify-content: space-between; align-items: center; padding: 8px 1rem; border-top: 0.5px solid var(--color-border-tertiary); font-size: 12px; color: var(--color-text-secondary); }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .contact-info { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item { display: flex; align-items: flex-start; gap: 12px; }
+    .contact-item-icon { width: 36px; height: 36px; background: #F5ECD7; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .contact-item-icon i { font-size: 18px; color: #C47B2B; }
+    .contact-item-label { font-size: 12px; color: var(--color-text-secondary); }
+    .contact-item-val { font-size: 14px; font-weight: 500; }
+    .contact-form { display: flex; flex-direction: column; gap: 10px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .contact-form input, .contact-form textarea, .contact-form select { width: 100%; padding: 9px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: 6px; font-size: 13px; background: var(--color-background-primary); color: var(--color-text-primary); outline: none; }
+    .contact-form textarea { height: 90px; resize: vertical; }
+    .submit-btn { background: #1A2E44; color: #fff; border: none; padding: 10px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; }
+
+    /* FOOTER */
+    .footer { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 12px; color: var(--color-text-secondary); }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 16px; }
+    .footer-logo span { color: #C47B2B; }
+  </style>
+</head>
+<body>
+
+<div class="site">
+  <nav class="nav">
+    <div class="nav-logo">Build<span>Craft</span> Co.</div>
+    <ul class="nav-links">
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Projects</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <button class="nav-cta">Get a Quote</button>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <div class="hero-tag">Est. 1998 — Licensed & Insured</div>
+      <h1>Building Structures That Stand the Test of Time</h1>
+      <p>From commercial complexes to residential renovations, we deliver quality construction with precision, safety, and trust.</p>
+      <div class="hero-btns">
+        <button class="btn-primary">View Our Projects</button>
+        <button class="btn-outline">Contact Us</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card accent">
+        <div class="hero-card-icon"><i class="ti ti-building-skyscraper" aria-hidden="true"></i></div>
+        <div class="hero-card-num">200+</div>
+        <div class="hero-card-label">Projects Completed</div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon"><i class="ti ti-calendar" aria-hidden="true"></i></div>
+        <div class="hero-card-num">25+</div>
+        <div class="hero-card-label">Years of Experience</div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon"><i class="ti ti-users" aria-hidden="true"></i></div>
+        <div class="hero-card-num">50+</div>
+        <div class="hero-card-label">Expert Workers</div>
+      </div>
+      <div class="hero-card accent">
+        <div class="hero-card-icon"><i class="ti ti-star" aria-hidden="true"></i></div>
+        <div class="hero-card-num">4.9★</div>
+        <div class="hero-card-label">Client Rating</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-tag">What We Do</div>
+    <h2 class="section-title">Our Services</h2>
+    <p class="section-sub">End-to-end construction solutions tailored to your needs.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon"><i class="ti ti-home-2" aria-hidden="true"></i></div>
+        <h3>Residential Construction</h3>
+        <p>Custom homes and housing projects built with care, from foundation to finishing touches.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="ti ti-building" aria-hidden="true"></i></div>
+        <h3>Commercial Buildings</h3>
+        <p>Office spaces, retail units, and commercial complexes delivered on time and on budget.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="ti ti-tools" aria-hidden="true"></i></div>
+        <h3>Renovations & Fit-outs</h3>
+        <p>Breathing new life into existing spaces with structural and interior renovation work.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="ti ti-road" aria-hidden="true"></i></div>
+        <h3>Civil & Infrastructure</h3>
+        <p>Roads, drainage, and civil engineering works handled by experienced professionals.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="ti ti-ruler-2" aria-hidden="true"></i></div>
+        <h3>Project Management</h3>
+        <p>Full-cycle project oversight from planning, procurement to final handover.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+        <h3>Safety & Compliance</h3>
+        <p>All work meets local codes and safety standards — fully licensed and insured team.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-tag">Our Work</div>
+    <h2 class="section-title">Recent Projects</h2>
+    <p class="section-sub">A selection of completed projects we are proud of.</p>
+    <div class="projects-grid">
+      <p style="color:var(--color-text-secondary); text-align:center; grid-column:1/-1;">Loading portfolio records...</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-tag">Get In Touch</div>
+    <h2 class="section-title">Contact Us</h2>
+    <p class="section-sub">Request a free consultation or quote for your project.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-icon"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
+          <div>
+            <div class="contact-item-label">Office Address</div>
+            <div class="contact-item-val">123 Builder's Road, Hyderabad, TG 500001</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i class="ti ti-phone" aria-hidden="true"></i></div>
+          <div>
+            <div class="contact-item-label">Phone</div>
+            <div class="contact-item-val">+91 98765 43210</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i class="ti ti-mail" aria-hidden="true"></i></div>
+          <div>
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-val">info@buildcraftco.in</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i class="ti ti-clock" aria-hidden="true"></i></div>
+          <div>
+            <div class="contact-item-label">Working Hours</div>
+            <div class="contact-item-val">Mon – Sat, 9:00 AM – 6:00 PM</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="contact-form">
+        <div class="form-row">
+          <input type="text" id="custName" placeholder="Your Name" />
+          <input type="text" id="custPhone" placeholder="Phone Number" />
+        </div>
+        <input type="email" id="custEmail" placeholder="Email Address" />
+        <select id="custService">
+          <option value="">Select Service</option>
+          <option>Residential Construction</option>
+          <option>Commercial Buildings</option>
+          <option>Renovations</option>
+          <option>Civil & Infrastructure</option>
+        </select>
+        <textarea id="custDesc" placeholder="Describe your project..."></textarea>
+        <button class="submit-btn">Send Enquiry</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">Build<span>Craft</span> Co.</div>
+    <div class="footer-copy">© 2026 BuildCraft Co. All rights reserved.</div>
+  </footer>
+</div>
+
+<script>
+  // -----------------------------------------------------------------
+  // 1. FETCH & RENDER PROJECTS FROM PORTFOLIO SERVICE
+  // -----------------------------------------------------------------
+  async function loadRecentProjects() {
+    const projectsGrid = document.querySelector('.projects-grid');
+    
+    try {
+      const response = await fetch('http://localhost:8765/portfolio/api/v1/projects');
+      if (!response.ok) throw new Error('Failed to retrieve portfolio data');
+      
+      const projects = await response.json();
+      
+      // Fallback display rule if DB responds with an empty list
+      if (!projects || projects.length === 0) {
+        projectsGrid.innerHTML = '<p style="color:var(--color-text-secondary); padding:1rem; grid-column:1/-1; text-align:center;">No past projects stored in system.</p>';
+        return;
+      }
+
+      // Clear the HTML list ONLY when network transmission payload returns fully valid arrays
+      projectsGrid.innerHTML = ''; 
+
+      projects.forEach(project => {
+        // Strict null filtering blocks loop crashes and structural rendering issues
+        const imgClass = project.imgClass || 'c1';
+        const iconClass = project.iconClass || 'ti-building';
+        const iconColor = project.iconColor || '#185FA5';
+        const type = project.projectType || 'General';
+        const title = project.title || 'Untitled Structure';
+        const desc = project.description || 'No system details provided.';
+        const year = project.projectYear || '2026';
+        const budget = project.costBudget || 'Contact For Evaluation';
+
+        const cardHTML = `
+          <div class="project-card">
+            <div class="project-img ${imgClass}">
+              <i class="ti ${iconClass}" style="font-size:48px; color:${iconColor};" aria-hidden="true"></i>
+            </div>
+            <div class="project-body">
+              <div class="project-type">${type}</div>
+              <h3>${title}</h3>
+              <p>${desc}</p>
+            </div>
+            <div class="project-footer">
+              <span>${year}</span>
+              <span>${budget}</span>
+            </div>
+          </div>
+        `;
+        projectsGrid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+    } catch (error) {
+      console.error('Data parsing logic exception details:', error);
+      projectsGrid.innerHTML = '<p style="color:red; padding:1rem; grid-column: 1 / -1; text-align:center;">Unable to load recent builds at this moment.</p>';
+    }
+  }
+
+  // -----------------------------------------------------------------
+  // 2. POST FORM ENQUIRY TO INQUIRY SERVICE VIA APIGATEWAY
+  // -----------------------------------------------------------------
+  document.querySelector('.submit-btn').addEventListener('click', async (e) => {
+    e.preventDefault(); 
+
+    const enquiryData = {
+      customerName: document.getElementById('custName').value.trim(),
+      phoneNumber: document.getElementById('custPhone').value.trim(),
+      emailAddress: document.getElementById('custEmail').value.trim(),
+      selectedService: document.getElementById('custService').value,
+      projectDescription: document.getElementById('custDesc').value.trim()
+    };
+
+    if (!enquiryData.customerName || !enquiryData.phoneNumber || !enquiryData.emailAddress) {
+      alert('Please fill out your Name, Phone Number, and Email Address.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8765/inquiry/api/v1/enquiries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(enquiryData)
+      });
+
+      if (response.ok) {
+        alert('Enquiry sent successfully! Saved cleanly inside your H2 database.');
+        
+        document.getElementById('custName').value = '';
+        document.getElementById('custPhone').value = '';
+        document.getElementById('custEmail').value = '';
+        document.getElementById('custService').value = '';
+        document.getElementById('custDesc').value = '';
+      } else {
+        alert('Failed to submit enquiry. Server returned an error response.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Could not connect to the Gateway. Make sure services are up.');
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', loadRecentProjects);
+</script>
+
+</body>
+</html>
