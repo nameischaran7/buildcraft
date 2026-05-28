@@ -17,6 +17,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="api-gateway" />
+        <module name="notification" />
         <module name="portfolio" />
         <module name="service-registry" />
       </profile>
@@ -26,6 +27,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
       <module name="inquiry" options="-parameters" />
+      <module name="notification" options="-parameters" />
       <module name="portfolio" options="-parameters" />
       <module name="service-registry" options="-parameters" />
     </option>
