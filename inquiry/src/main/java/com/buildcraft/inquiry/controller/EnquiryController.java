@@ -1,8 +1,10 @@
 package com.buildcraft.inquiry.controller;
 
-import com.buildcraft.inquiry.client.NotificationClient;
+
 import com.buildcraft.inquiry.entity.CustomerInquiry;
 import com.buildcraft.inquiry.repository.EnquiryRepository;
+import org.apache.kafka.common.protocol.types.Field;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -10,6 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -21,21 +24,33 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+//import com.buildcraft.inquiry.client.NotificationClient;
 @RestController
 @RequestMapping("/api/v1/enquiries")
-
 public class EnquiryController {
     private final EnquiryRepository enquiryRepository;
-    private final NotificationClient notificationClient;
+    private final KafkaTemplate<String,CustomerInquiry> kafkaTemplate;
+    private static final String TOPIC_NAME = "enquiry-topic";
+//    private final NotificationClient notificationClient;
     private static final String EXCEL_FILE_PATH="C:\\Users\\Charan Teja k\\OneDrive\\Desktop\\BuildCraft.xlsx";
-    public EnquiryController(EnquiryRepository enquiryRepository,NotificationClient notificationClient){
+    public EnquiryController(EnquiryRepository enquiryRepository
+            //,NotificationClient notificationClient
+                             ,KafkaTemplate<String,CustomerInquiry> kafkaTemplate){
         this.enquiryRepository=enquiryRepository;
-        this.notificationClient=notificationClient;
+        this.kafkaTemplate=kafkaTemplate;
+//        this.notificationClient=notificationClient;
     }
     @PostMapping
     public ResponseEntity<CustomerInquiry>  submitEnquiry(@RequestBody CustomerInquiry inquiry){
         CustomerInquiry savedInquiry=enquiryRepository.save(inquiry);
-        notificationClient.triggerMails(savedInquiry);
+//        notificationClient.triggerMails(savedInquiry);
+        try{
+            kafkaTemplate.send(TOPIC_NAME,savedInquiry);
+            System.out.println("Successfully published event packet to Kafka Topic: " + TOPIC_NAME);
+        }
+        catch (Exception e){
+            System.err.println("Kafka cluster publish fallback trigger: " + e.getMessage());
+        }
         try {
             logToExcel(savedInquiry);
         } catch (Exception e) {
