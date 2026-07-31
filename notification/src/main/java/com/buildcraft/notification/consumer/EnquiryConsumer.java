@@ -14,13 +14,11 @@ public class EnquiryConsumer {
     public EnquiryConsumer(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
-
-    // 👈 This annotation automatically spins up an internal loop listening to Kafka!
     @KafkaListener(topics = "enquiry-topic", groupId = "notification-group")
     public void consumeEnquiryEvent(InquiryRequest inquiry) {
         System.out.println("Kafka Event intercepted! Processing email dispatch for customer: " + inquiry.getCustomerName());
         try{
-        // Put your existing email logic right here!
+
         SimpleMailMessage adminMessage = new SimpleMailMessage();
         adminMessage.setTo("kanugulacharan@gmail.com");
         adminMessage.setSubject("🚨 New Construction Enquiry Received!");

@@ -18,6 +18,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="api-gateway" />
         <module name="notification" />
+        <module name="project" />
+        <module name="User" />
         <module name="portfolio" />
         <module name="service-registry" />
       </profile>
@@ -25,10 +27,12 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="User" options="-parameters" />
       <module name="api-gateway" options="-parameters" />
       <module name="inquiry" options="-parameters" />
       <module name="notification" options="-parameters" />
       <module name="portfolio" options="-parameters" />
+      <module name="project" options="-parameters" />
       <module name="service-registry" options="-parameters" />
     </option>
   </component>
