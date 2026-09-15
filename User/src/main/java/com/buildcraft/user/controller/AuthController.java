@@ -1,5 +1,6 @@
 package com.buildcraft.user.controller;
 
+import com.buildcraft.user.dto.LoginRequest;
 import com.buildcraft.user.dto.RegisterRequest;
 import com.buildcraft.user.entity.User;
 import com.buildcraft.user.repository.UserRepository;
@@ -22,5 +23,9 @@ public class AuthController {
         authService.register(registerRequest);
         return "User registered successfully";
 }
+@PostMapping("/login")
+    public String userLogin(@RequestBody LoginRequest loginRequest){
+        return  authService.login(loginRequest);
 
+}
 }
