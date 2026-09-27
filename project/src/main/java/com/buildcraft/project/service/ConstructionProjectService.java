@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConstructionProjectService {
     private final ConstructionProjectRepository constructionProjectRepository;
-    public ConstructionProjectService(ConstructionProjectRepository constructionProjectRepository){
+    private final ProjectCacheService projectCacheService;
+    public ConstructionProjectService(ConstructionProjectRepository constructionProjectRepository, ProjectCacheService projectCacheService){
         this.constructionProjectRepository=constructionProjectRepository;
+        this.projectCacheService = projectCacheService;
     }
     public ConstructionProject createProject(CreateProjectRequest createProjectRequest){
         ConstructionProject constructionProject=new ConstructionProject();
@@ -24,28 +26,44 @@ public class ConstructionProjectService {
 
         constructionProject.setStatus(ProjectStatus.PLANNING);
 
-        return  constructionProjectRepository.save(constructionProject);
+        ConstructionProject saved =
+                constructionProjectRepository.save(constructionProject);
+
+        projectCacheService.updateProjectCache(saved);
+
+        return saved;
     }
     public ConstructionProject assignManager(AssignManagerRequest assignManagerRequest,Long projectId){
-
         ConstructionProject constructionProject =
                 constructionProjectRepository.findById(projectId)
                         .orElseThrow(() -> new RuntimeException("Project Not Found"));
-
+        constructionProject.setManagerId(assignManagerRequest.getManagerId());
         constructionProject.setManagerId(assignManagerRequest.getManagerId());
 
-        return constructionProjectRepository.save(constructionProject);
+        ConstructionProject updated =
+                constructionProjectRepository.save(constructionProject);
 
+        projectCacheService.updateProjectCache(updated);
+
+        return updated;
     }
-
     public ConstructionProject assignClient(AssignClientRequest assignClientRequest,Long projectId){
-
         ConstructionProject constructionProject =
                 constructionProjectRepository.findById(projectId)
                         .orElseThrow(() -> new RuntimeException("Project Not Found"));
-
         constructionProject.setClientId(assignClientRequest.getClientId());
 
-        return constructionProjectRepository.save(constructionProject);
+        ConstructionProject updated =
+                constructionProjectRepository.save(constructionProject);
+
+        projectCacheService.updateProjectCache(updated);
+
+        return updated;
+    }
+    public ConstructionProject getProject(Long projectId){
+        ConstructionProject constructionProject =
+                constructionProjectRepository.findById(projectId)
+                        .orElseThrow(() -> new RuntimeException("Project Not Found"));
+        return constructionProject;
     }
 }
