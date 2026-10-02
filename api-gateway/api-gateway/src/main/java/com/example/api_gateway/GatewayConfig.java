@@ -16,15 +16,31 @@ public class GatewayConfig {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
+
+                // Inquiry Service
                 .route("inquiry-route", r -> r.path("/inquiry/**")
                         .filters(f -> f.stripPrefix(1)
-                                .dedupeResponseHeader("Access-Control-Allow-Origin Access-Control-Allow-Credentials", "RETAIN_UNIQUE"))
+                                .dedupeResponseHeader(
+                                        "Access-Control-Allow-Origin Access-Control-Allow-Credentials",
+                                        "RETAIN_UNIQUE"))
                         .uri("lb://inquiry"))
 
+                // Portfolio Service
                 .route("portfolio-route", r -> r.path("/portfolio/**")
                         .filters(f -> f.stripPrefix(1)
-                                .dedupeResponseHeader("Access-Control-Allow-Origin Access-Control-Allow-Credentials", "RETAIN_UNIQUE"))
+                                .dedupeResponseHeader(
+                                        "Access-Control-Allow-Origin Access-Control-Allow-Credentials",
+                                        "RETAIN_UNIQUE"))
                         .uri("lb://portfolio"))
+
+                // Project Service
+                .route("project-route", r -> r.path("/project/**")
+                        .filters(f -> f.stripPrefix(1)
+                                .dedupeResponseHeader(
+                                        "Access-Control-Allow-Origin Access-Control-Allow-Credentials",
+                                        "RETAIN_UNIQUE"))
+                        .uri("lb://project"))
+
                 .build();
     }
 
@@ -32,15 +48,19 @@ public class GatewayConfig {
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
 
-        // FIXED: Swapped to setAllowedOriginPatterns so "null" registers as a valid browser origin pattern
         corsConfig.setAllowedOriginPatterns(Arrays.asList("*"));
- 
         corsConfig.setMaxAge(3600L);
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        corsConfig.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
+        corsConfig.setAllowedMethods(
+                Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        );
+        corsConfig.setAllowedHeaders(
+                Arrays.asList("Content-Type", "Authorization")
+        );
         corsConfig.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+
         source.registerCorsConfiguration("/**", corsConfig);
 
         return new CorsWebFilter(source);

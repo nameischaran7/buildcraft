@@ -38,7 +38,7 @@ public class ConstructionProjectService {
                 constructionProjectRepository.findById(projectId)
                         .orElseThrow(() -> new RuntimeException("Project Not Found"));
         constructionProject.setManagerId(assignManagerRequest.getManagerId());
-        constructionProject.setManagerId(assignManagerRequest.getManagerId());
+
 
         ConstructionProject updated =
                 constructionProjectRepository.save(constructionProject);
@@ -65,5 +65,15 @@ public class ConstructionProjectService {
                 constructionProjectRepository.findById(projectId)
                         .orElseThrow(() -> new RuntimeException("Project Not Found"));
         return constructionProject;
+    }
+    public void deleteProject(Long projectId) {
+
+        ConstructionProject constructionProject =
+                constructionProjectRepository.findById(projectId)
+                        .orElseThrow(() -> new RuntimeException("Project Not Found"));
+
+        constructionProjectRepository.delete(constructionProject);
+
+        projectCacheService.deleteProjectCache(projectId);
     }
 }

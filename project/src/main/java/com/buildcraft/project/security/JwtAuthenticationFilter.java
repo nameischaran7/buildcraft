@@ -33,6 +33,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         authHeader=authHeader.substring(7);
         Long userId=jwtService.extractUserId(authHeader);
         String role=jwtService.extractRole(authHeader);
+        System.out.println("USER ID = " + userId);
+        System.out.println("ROLE = " + role);
         Authentication authentication=
                 new UsernamePasswordAuthenticationToken(
                         userId,

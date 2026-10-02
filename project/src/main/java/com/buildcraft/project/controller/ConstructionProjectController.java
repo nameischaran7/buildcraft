@@ -3,6 +3,7 @@ package com.buildcraft.project.controller;
 import com.buildcraft.project.dto.AssignClientRequest;
 import com.buildcraft.project.dto.AssignManagerRequest;
 import com.buildcraft.project.dto.CreateProjectRequest;
+import com.buildcraft.project.dto.ProjectCacheDto;
 import com.buildcraft.project.entity.ConstructionProject;
 import com.buildcraft.project.security.AuthorizationService;
 import com.buildcraft.project.service.ConstructionProjectService;
@@ -17,11 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class ConstructionProjectController {
     private final ConstructionProjectService constructionProjectService;
     private final AuthorizationService authorizationService;
-
-    public ConstructionProjectController(ConstructionProjectService constructionProjectService, AuthorizationService authorizationService){
+    private final ProjectCacheService projectCacheService;
+    public ConstructionProjectController(ConstructionProjectService constructionProjectService, AuthorizationService authorizationService, ProjectCacheService projectCacheService){
         this.constructionProjectService=constructionProjectService;
         this.authorizationService = authorizationService;
 
+        this.projectCacheService = projectCacheService;
     }
 
     @PostMapping
@@ -45,7 +47,7 @@ public class ConstructionProjectController {
         return (Long) authentication.getPrincipal();
     }
     @GetMapping("/{projectId}")
-    public ConstructionProject getProject(@PathVariable Long projectId) {
+    public ProjectCacheDto getProject(@PathVariable Long projectId) {
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
         Long userId=(Long)authentication.getPrincipal();
         String role=authentication.getAuthorities()
@@ -56,7 +58,12 @@ public class ConstructionProjectController {
         System.out.println("USER ID = " + userId);
         System.out.println("ROLE = " + role);
         System.out.println("AUTHORITIES = " + authentication.getAuthorities());
-        authorizationService.checkCanViewProject(userId,role,projectId);
-        return constructionProjectService.getProject(projectId);
+
+        return authorizationService.checkCanViewProject(userId,role,projectId);
+    }
+    @DeleteMapping("/{projectId}")
+    public void deleteProject(@PathVariable Long projectId) {
+
+        constructionProjectService.deleteProject(projectId);
     }
 }

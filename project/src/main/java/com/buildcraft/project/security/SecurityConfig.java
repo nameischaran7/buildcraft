@@ -45,7 +45,13 @@ public class SecurityConfig {
                             "PROJECT_MANAGER",
                             "SUPER_ADMIN"
                     );
-
+                    auth.requestMatchers(
+                            HttpMethod.POST,
+                            "/api/v1/projects/**"
+                    ).hasAnyRole(
+                            "PROJECT_MANAGER",
+                            "SUPER_ADMIN"
+                    );
                     auth.requestMatchers(
                             HttpMethod.DELETE,
                             "/api/v1/projects/**"
