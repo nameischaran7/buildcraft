@@ -41,6 +41,13 @@ public class GatewayConfig {
                                         "RETAIN_UNIQUE"))
                         .uri("lb://project"))
 
+                .route("user-route", r -> r.path("/user/**")
+                .filters(f -> f.stripPrefix(1)
+                        .dedupeResponseHeader(
+                                "Access-Control-Allow-Origin Access-Control-Allow-Credentials",
+                                "RETAIN_UNIQUE"))
+                .uri("lb://user"))
+
                 .build();
     }
 
